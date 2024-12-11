@@ -1,0 +1,75 @@
+.main-div {
+    background: rgb(0, 0, 0);
+    background: linear-gradient(90deg, rgba(0, 0, 0, 1) 65%, rgba(93, 16, 16, 1) 100%);
+}
+
+.carousel-inner {
+    padding: 50px;
+}
+
+.carousel-inner img {
+    height: 400px;
+}
+
+.movie-list-container {
+    display: flex;
+    overflow-x: auto;
+    overflow-y: hidden;
+    gap: 10px;
+    /* space between items */
+    scrollbar-color: #b9090986 #000;
+}
+
+.movie-item {
+    width: 200px;
+    text-align: center;
+    transition: transform .2s;
+    cursor: pointer;
+}
+
+.movie-item:hover {
+    transform: scale(1.1);
+}
+
+.movie-item img {
+    width: 150px;
+    height: 200px;
+}
+
+.icon-container {
+    display: flex;
+    justify-content: center;
+    /* Centers horizontally */
+    align-items: center;
+    /* Centers vertically */
+    height: 100px;
+    /* Example height */
+    width: 100px;
+    /* Example width */
+    background-color: black;
+    /* Background color for visibility */
+}
+
+.card-bg-color {
+    background: rgb(0, 0, 0);
+    background: linear-gradient(90deg, rgba(0, 0, 0, 1) 35%, rgba(93, 16, 16, 1) 100%);
+}
+
+/* Loader overlay */
+.overlay-loader {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.5);
+    /* Semi-transparent background */
+    z-index: 10;
+    /* Stays on top of the content */
+}
+
+/* Blur effect */
+.blur {
+    filter: blur(2px);
+    /* Adjust the blur intensity */
+    pointer-events: none;
+    /* Prevent interactions while loading */
+}

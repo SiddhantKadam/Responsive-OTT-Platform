@@ -1,0 +1,4 @@
+<app-navbar (dataEmitter)="receiveSearchData($event)"></app-navbar>
+<app-movies *ngIf="!moviesSearchedData"></app-movies>
+<app-search *ngIf="moviesSearchedData" [searchMovie]="moviesSearchedData"></app-search>
+<router-outlet></router-outlet>

@@ -1,0 +1,14 @@
+.collapsed-search {
+    width: 150px;
+    transition: width 0.3s ease;
+}
+
+.expanded-search {
+    width: 300px;
+    transition: width 0.3s ease;
+}
+
+.custom-placeholder::placeholder {
+    color: lightgray; /* Change to your desired color */
+    opacity: 1; /* Ensure full opacity for the color */
+}

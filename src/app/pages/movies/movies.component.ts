@@ -29,6 +29,7 @@ export class MoviesComponent {
 
   actionMoviesLoading = false;
   comedyMoviesLoading = false;
+  mainLoader = true;
 
   constructor(private moviesService: MoviesService) { }
 
@@ -44,6 +45,7 @@ export class MoviesComponent {
         if (data.Search) {
           if (type == "all") {
             this.allMovies = [...this.allMovies, ...data.Search];
+            this.mainLoader = false;
           } else if (type == "action") {
             this.allActionMovies = [...this.allActionMovies, ...data.Search];
           } else if (type == "comedy") {

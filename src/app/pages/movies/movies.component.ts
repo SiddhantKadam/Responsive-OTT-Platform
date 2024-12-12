@@ -62,9 +62,11 @@ export class MoviesComponent {
   loadMore(type: string): void {
     let count;
     if (type == "all") {
-      count = this.allMoviesCurrentPage++;
+      this.allMoviesCurrentPage++;
+      count = this.allMoviesCurrentPage;
     } else if (type == "action") {
-      count = this.actionMoviesCurrentPage++;
+      this.actionMoviesCurrentPage++;
+      count = this.actionMoviesCurrentPage;
       this.actionMoviesLoading = true;
       setTimeout(() => {
         const container = this.actionMoviesListContainer.nativeElement;
@@ -72,7 +74,8 @@ export class MoviesComponent {
         this.actionMoviesLoading = false;
       }, 2000);
     } else if (type == "comedy") {
-      count = this.comedyMoviesCurrentPage++;
+      this.comedyMoviesCurrentPage++;
+      count = this.comedyMoviesCurrentPage;
       this.comedyMoviesLoading = true;
       setTimeout(() => {
         const container = this.comedyMoviesListContainer.nativeElement;

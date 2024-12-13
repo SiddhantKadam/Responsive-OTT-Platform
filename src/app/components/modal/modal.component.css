@@ -1,0 +1,4 @@
+.card-bg-color {
+    background: rgb(0, 0, 0);
+    background: linear-gradient(90deg, rgba(0, 0, 0, 1) 35%, rgba(93, 16, 16, 1) 100%);
+}

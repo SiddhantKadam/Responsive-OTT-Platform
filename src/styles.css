@@ -1,7 +1,9 @@
-body {
-  background-color: black;
-}
-
+/* Global CSS */
 .font-100 {
   font-weight: 100;
+}
+
+.rounded-button {
+  width: 40px;
+  height: 40px;
 }

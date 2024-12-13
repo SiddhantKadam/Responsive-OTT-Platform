@@ -8,13 +8,15 @@ import { MoviesComponent } from './pages/movies/movies.component';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { SearchComponent } from './pages/search/search.component';
+import { ModalComponent } from './components/modal/modal.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     NavbarComponent,
     MoviesComponent,
-    SearchComponent
+    SearchComponent,
+    ModalComponent
   ],
   imports: [
     BrowserModule,

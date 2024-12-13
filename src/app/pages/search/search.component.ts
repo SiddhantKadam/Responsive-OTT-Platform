@@ -1,7 +1,8 @@
-import { HttpClient } from '@angular/common/http';
 import { Component, Input, SimpleChanges } from '@angular/core';
 import { Subject, debounceTime, switchMap } from 'rxjs';
-import { MoviesService } from 'src/app/services/movies.service';
+import { MOVIES_CONSTANTS } from 'src/app/constants';
+import { Movie } from 'src/app/model';
+import { MoviesService } from 'src/app/services/movies/movies.service';
 declare var bootstrap: any;
 
 @Component({
@@ -13,15 +14,13 @@ export class SearchComponent {
 
   @Input() searchMovie: string = '';
   private searchSubject: Subject<string> = new Subject<string>();
-  searchedText: any | undefined;
-  searchedMovies: any[] = [];
-  searchMoviesLoading = false;
 
-  slides = [
-    { image: 'https://via.placeholder.com/800x400?text=Slide+1', caption: 'Slide 1' },
-    { image: 'https://via.placeholder.com/800x400?text=Slide+2', caption: 'Slide 2' },
-    { image: 'https://via.placeholder.com/800x400?text=Slide+3', caption: 'Slide 3' }
-  ];
+  searchedText: string = "";
+  searchedMovies: any[] = [];
+  searchMoviesLoading: boolean = false;
+
+  selectedMovieData: Movie = {};
+  MOVIES_CONSTANTS: any = MOVIES_CONSTANTS;
 
   constructor(private moviesService: MoviesService) { }
 
@@ -38,7 +37,7 @@ export class SearchComponent {
     // Subscribe to the subject to handle search logic with debounce
     this.searchSubject.pipe(
       debounceTime(500),  // Delay the request by 500ms after the user stops typing
-      switchMap((query) => this.fetchMovies(query))  // Perform the API call with the debounced query
+      switchMap((query) => this.fetchMovies(query))
     ).subscribe({
       next: (movies) => {
         this.searchedMovies.push(movies);
@@ -62,11 +61,9 @@ export class SearchComponent {
     );
   }
 
-  selectedMovie: any;
-
-  openPopup(movie: any): void {
-    this.selectedMovie = movie;
-    // Optionally, you can trigger the modal manually
+  // Open modal manually
+  openPopup(movie: Movie): void {
+    this.selectedMovieData = movie;
     const modal = new bootstrap.Modal(document.getElementById('movieModal')!);
     modal.show();
   }

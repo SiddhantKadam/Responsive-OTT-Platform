@@ -6,11 +6,11 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'angular-project';
 
   moviesSearchedData: string = '';
 
-  receiveSearchData(data: string) {
+  // Search movies to Parent data transfer
+  receiveSearchData(data: string): void {
     this.moviesSearchedData = data;
   }
 

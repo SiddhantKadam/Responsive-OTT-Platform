@@ -1,3 +1,4 @@
+/* Search bar */
 .collapsed-search {
     width: 150px;
     transition: width 0.3s ease;
@@ -9,6 +10,6 @@
 }
 
 .custom-placeholder::placeholder {
-    color: lightgray; /* Change to your desired color */
-    opacity: 1; /* Ensure full opacity for the color */
+    color: lightgray;
+    opacity: 1;
 }

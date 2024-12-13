@@ -1,5 +1,7 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
-import { MoviesService } from 'src/app/services/movies.service';
+import { MOVIES_CONSTANTS } from 'src/app/constants';
+import { Movie } from 'src/app/model';
+import { MoviesService } from 'src/app/services/movies/movies.service';
 declare var bootstrap: any;
 @Component({
   selector: 'app-movies',
@@ -8,28 +10,23 @@ declare var bootstrap: any;
 })
 export class MoviesComponent {
 
-  @ViewChild('scrollContainer', { static: true }) scrollContainer!: ElementRef;
   @ViewChild('actionMoviesListContainer') actionMoviesListContainer!: ElementRef;
   @ViewChild('comedyMoviesListContainer') comedyMoviesListContainer!: ElementRef;
-
-  slides = [
-    { image: 'https://via.placeholder.com/800x400?text=Slide+1', caption: 'Slide 1' },
-    { image: 'https://via.placeholder.com/800x400?text=Slide+2', caption: 'Slide 2' },
-    { image: 'https://via.placeholder.com/800x400?text=Slide+3', caption: 'Slide 3' }
-  ];
-
 
   allMovies: any[] = [];
   allActionMovies: any[] = [];
   allComedyMovies: any[] = [];
 
-  allMoviesCurrentPage = 1;
-  actionMoviesCurrentPage = 1;
-  comedyMoviesCurrentPage = 1;
+  allMoviesCurrentPage: number = 1;
+  actionMoviesCurrentPage: number = 1;
+  comedyMoviesCurrentPage: number = 1;
 
-  actionMoviesLoading = false;
-  comedyMoviesLoading = false;
-  mainLoader = true;
+  actionMoviesLoading: boolean = false;
+  comedyMoviesLoading: boolean = false;
+  mainLoader: boolean = true;
+
+  selectedMovieData: Movie = {};
+  MOVIES_CONSTANTS: any = MOVIES_CONSTANTS;
 
   constructor(private moviesService: MoviesService) { }
 
@@ -48,8 +45,22 @@ export class MoviesComponent {
             this.mainLoader = false;
           } else if (type == "action") {
             this.allActionMovies = [...this.allActionMovies, ...data.Search];
+            if (count) {
+              setTimeout(() => { // Scroll after movie load to DOM
+                const container = this.actionMoviesListContainer.nativeElement;
+                container.scrollLeft = container.scrollWidth;
+                this.actionMoviesLoading = false;
+              }, 100)
+            }
           } else if (type == "comedy") {
             this.allComedyMovies = [...this.allComedyMovies, ...data.Search];
+            if (count) {
+              setTimeout(() => { // Scroll after movie load to DOM
+                const container = this.comedyMoviesListContainer.nativeElement;
+                container.scrollLeft = container.scrollWidth;
+                this.comedyMoviesLoading = false;
+              }, 100)
+            }
           }
         }
       },
@@ -59,6 +70,7 @@ export class MoviesComponent {
     });
   }
 
+  // Load more movies with pagination
   loadMore(type: string): void {
     let count;
     if (type == "all") {
@@ -68,33 +80,17 @@ export class MoviesComponent {
       this.actionMoviesCurrentPage++;
       count = this.actionMoviesCurrentPage;
       this.actionMoviesLoading = true;
-      setTimeout(() => {
-        const container = this.actionMoviesListContainer.nativeElement;
-        container.scrollLeft = container.scrollWidth;
-        this.actionMoviesLoading = false;
-      }, 2000);
     } else if (type == "comedy") {
       this.comedyMoviesCurrentPage++;
       count = this.comedyMoviesCurrentPage;
       this.comedyMoviesLoading = true;
-      setTimeout(() => {
-        const container = this.comedyMoviesListContainer.nativeElement;
-        container.scrollLeft = container.scrollWidth;
-        this.comedyMoviesLoading = false;
-      }, 2000);
     }
     this.fetchMovies(type, count);
   }
 
-  scrollRight(): void {
-    this.scrollContainer.nativeElement.scrollLeft += 200; // Adjust scroll amount as needed
-  }
-
-  selectedMovie: any;
-
-  openPopup(movie: any): void {
-    this.selectedMovie = movie;
-    // Optionally, you can trigger the modal manually
+  // Open modal manually
+  openMoviePopup(movie: any): void {
+    this.selectedMovieData = movie;
     const modal = new bootstrap.Modal(document.getElementById('movieModal')!);
     modal.show();
   }

@@ -6,6 +6,7 @@ import { Component, EventEmitter, Output } from '@angular/core';
   styleUrls: ['./navbar.component.css']
 })
 export class NavbarComponent {
+
   isSearchFocused: boolean = false;
   @Output() dataEmitter = new EventEmitter<string>();
 

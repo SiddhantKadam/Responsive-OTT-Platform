@@ -1,3 +1,4 @@
+<!-- Main loader -->
 <div id="loader" *ngIf="mainLoader"
     class="position-fixed top-0 start-0 w-100 h-100 bg-dark bg-opacity-50 d-flex justify-content-center align-items-center z-index-1050">
     <div class="spinner-border text-white" role="status">
@@ -6,6 +7,8 @@
 </div>
 
 <div class="main-div" *ngIf="!mainLoader">
+
+    <!-- Carousel -->
     <div id="carouselExample" class="carousel slide" data-bs-ride="carousel">
         <div class="carousel-inner">
             <div *ngFor="let movie of allMovies; let i = index" class="carousel-item" [ngClass]="{'active': i === 0}">
@@ -17,21 +20,15 @@
                         <h3 class="text-light mb-3 fw-light">Release Year - {{movie.Year}}</h3>
                         <span class="bg-success px-2 text-white">{{movie.Type | uppercase}}</span>
                         <p class="text-white mt-3">
-                            Action Movie X follows the thrilling journey of an ex-soldier seeking revenge after his
-                            family
-                            is taken. With intense fight scenes and high-speed chases, the protagonist battles both
-                            physical and emotional obstacles. The film combines explosive stunts with powerful
-                            storytelling,
-                            keeping viewers on the edge of their seats. As secrets unfold, alliances are tested, and the
-                            stakes rise. In the end, the hero must confront his past to secure his future.
+                            {{MOVIES_CONSTANTS.BANNER_MOVIE_DESCRIPTION}}
                         </p>
                         <div class="d-flex justify-content-center justify-content-md-start position-md-absolute"
                             style="bottom: 10%;">
-                            <button class="btn bg-light me-2" title="Watch">
-                                <i class="fa fa-play me-1"></i> Watch Now
+                            <button class="btn bg-light me-2" title="{{MOVIES_CONSTANTS.WATCH_NOW}}">
+                                <i class="fa fa-play me-1"></i> {{MOVIES_CONSTANTS.WATCH_NOW}}
                             </button>
-                            <button class="btn bg-light ms-md-3" title="Wishlist">
-                                <i class="fa fa-plus me-1"></i> Add to wishlist
+                            <button class="btn bg-light ms-md-3" title="{{MOVIES_CONSTANTS.ADD_TO_WISHLIST}}">
+                                <i class="fa fa-plus me-1"></i> {{MOVIES_CONSTANTS.ADD_TO_WISHLIST}}
                             </button>
                         </div>
                     </div>
@@ -69,7 +66,7 @@
 
             <!-- Movie List Container -->
             <div class="movie-list-container" #actionMoviesListContainer>
-                <div class="movie-item" *ngFor="let movie of allActionMovies" (click)="openPopup(movie)">
+                <div class="movie-item" *ngFor="let movie of allActionMovies" (click)="openMoviePopup(movie)">
                     <div class="movie-card">
                         <img [src]="movie.Poster" alt="{{movie.Title}}" />
                         <h6 class="text-light mt-1 text-truncate" style="max-width: 150px;">{{movie.Title}}</h6>
@@ -97,7 +94,7 @@
             </div>
             <hr class="border border-white mt-1">
             <div class="movie-list-container" #comedyMoviesListContainer>
-                <div class="movie-item" *ngFor="let movie of allComedyMovies" (click)="openPopup(movie)">
+                <div class="movie-item" *ngFor="let movie of allComedyMovies" (click)="openMoviePopup(movie)">
                     <div class="movie-card">
                         <img [src]="movie.Poster" alt="{{movie.Title}}" />
                         <h6 class="text-light mt-1 text-truncate" style="max-width: 150px;">{{movie.Title}}</h6>
@@ -108,108 +105,7 @@
     </div>
 </div>
 
+<!-- Selected movie modal -->
 <div class="modal fade" id="movieModal" tabindex="-1" aria-labelledby="movieModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-lg">
-        <div class="modal-content bg-dark">
-            <div class="modal-body">
-                <button type="button" class="btn position-absolute" style="top: 10px;right: 10px;" data-bs-dismiss="modal" aria-label="Close"><i class="fa fa-times text-white"></i></button>
-                <!-- Main Content Section -->
-                <div class="d-flex flex-column flex-md-row">
-                    <!-- Movie Poster -->
-                    <img [src]="selectedMovie?.Poster" [alt]="selectedMovie?.Title" class="img-fluid mb-3 mb-md-0"
-                        style="width: 100%; max-width: 200px; object-fit: cover;" />
-                    <!-- Movie Details -->
-                    <div class="ms-0 ms-md-3">
-                        <h1 class="text-white font-100">{{selectedMovie?.Title}}</h1>
-                        <h5 class="text-white font-100 mb-2">Release Year: {{selectedMovie?.Year}}</h5>
-                        <span class="bg-success px-2 text-white">{{selectedMovie?.Type | uppercase}}</span>
-                        <p class="text-white mt-3">
-                            Action Movie X follows the thrilling journey of an ex-soldier seeking revenge after his
-                            family is taken. With intense fight scenes and high-speed chases, the protagonist battles
-                            both
-                            physical and emotional obstacles.
-                        </p>
-                        <!-- Buttons -->
-                        <div class="d-flex flex-wrap">
-                            <button class="btn bg-light mb-2 me-2" title="Watch">
-                                <i class="fa fa-play me-1"></i> Watch Now
-                            </button>
-                            <button class="btn bg-light mb-2" title="Wishlist">
-                                <i class="fa fa-plus me-1"></i> Add to wishlist
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Genre and Reactions Section -->
-                <div class="d-flex justify-content-between align-items-center flex-wrap mt-4">
-                    <div class="pt-2 mb-3">
-                        <p class="text-white font-100 mb-0">Genre:
-                            <span class="border border-white px-2 py-1">Action</span>
-                            <span class="border border-white px-2 py-1 ms-2">Drama</span>
-                        </p>
-                    </div>
-                    <div>
-                        <button class="btn border border-white rounded-circle me-2 mb-2"
-                            style="width: 40px; height: 40px;" title="I like this">
-                            <i class="fa fa-thumbs-up text-white" style="font-size: 18px;"></i>
-                        </button>
-                        <button class="btn border border-white rounded-circle mb-2" style="width: 40px; height: 40px;"
-                            title="I don't like this">
-                            <i class="fa fa-thumbs-down text-white" style="font-size: 18px;"></i>
-                        </button>
-                    </div>
-                </div>
-                <hr class="border border-white" />
-
-                <!-- Episodes or Recommendations Section -->
-                <div class="mt-3">
-                    <h2 *ngIf="selectedMovie?.Type === 'series'" class="text-white font-100">Episodes</h2>
-                    <h2 *ngIf="selectedMovie?.Type === 'movie'" class="text-white font-100">More like this</h2>
-
-                    <div *ngFor="let movie of slides; let i = index" class="card card-bg-color py-2 px-3 mb-3">
-                        <div class="row align-items-center">
-                            <!-- Episode Number -->
-                            <div class="col-2 col-sm-1 text-center">
-                                <h3 class="font-100 text-white">{{i + 1}}</h3>
-                            </div>
-
-                            <!-- Movie Poster -->
-                            <div class="col-4 col-sm-2 text-center">
-                                <img [src]="selectedMovie?.Poster" [alt]="selectedMovie?.Title"
-                                    class="img-fluid rounded"
-                                    style="width: 100%; max-width: 80px; object-fit: cover;" />
-                            </div>
-
-                            <!-- Movie Details -->
-                            <div class="col-6 col-sm-8">
-                                <p class="text-white fw-bold mb-1">{{selectedMovie?.Title}}</p>
-                                <p class="text-white font-100 mb-0 d-none d-sm-block">
-                                    Action Movie X follows the thrilling journey of an ex-soldier seeking revenge after
-                                    his
-                                    family
-                                    is taken. With intense fight scenes and high-speed chases.
-                                </p>
-                            </div>
-
-                            <!-- Watch Button -->
-                            <div class="col-12 col-sm-1 d-flex justify-content-end align-items-center mt-3 mt-sm-0">
-                                <button class="btn border border-white rounded-circle d-none d-sm-block"
-                                    style="width: 40px; height: 40px;" title="Watch now">
-                                    <i class="fa fa-play text-white" style="font-size: 18px;"></i>
-                                </button>
-
-                                <button class="btn border border-white text-white d-sm-none d-sm-max-block"
-                                    title="Watch now">
-                                    <i class="fa fa-play"></i> <span class="ms-2">Watch Now</span>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-
-        </div>
-    </div>
+    <app-modal [selectedMovie]="selectedMovieData"></app-modal>
 </div>
